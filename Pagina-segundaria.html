@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="PT-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OI LINDA</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="pagina-texto-longo">
+    <div>
+        <h2>Com Amor Para Brunna Moreira</h2>
+
+        <p>Parabens, voce encontrou a pagina secreta! 💖<br><br>
+        Brunna Moreira, voce e a dona dos meus melhores pensamentos e do meu sorriso mais sincero.
+        Como eu nao consigo expressar em palavras tudo o que sinto por voce, resolvi criar isso aqui.
+        Porque, as vezes, parece que qualquer palavra ainda e pequena perto do que voce significa para mim.<br><br>
+        Voce chegou de um jeito tao especial e, sem perceber, foi conquistando um espaco enorme no meu coracao.
+        Gosto da forma como voce consegue deixar meus dias mais leves so por estar presente.
+        Gosto das nossas conversas, das nossas risadas e ate daqueles momentos em que nao precisamos dizer nada.<br><br>
+        E incrivel como uma simples mensagem sua consegue mudar completamente o meu humor.
+        E, sinceramente, eu poderia passar horas falando sobre cada detalhe seu que me faz gostar ainda mais de voce.
+        Seu jeito, seu sorriso, sua voz, suas manias... tudo em voce tem um pedacinho que eu aprendi a amar.<br><br>
+        Voce se tornou aquele pensamento que aparece do nada e acaba ficando o dia inteiro.
+        Aquela pessoa que eu quero contar as coisas, sejam elas importantes ou completamente bobas.
+        E talvez seja isso que mais me encanta: poder ser eu mesmo quando estou com voce.<br><br>
+        Nao preciso fingir, nao preciso procurar palavras bonitas, porque perto de voce tudo parece simplesmente acontecer.
+        Eu nao sei exatamente o que o futuro nos reserva, mas sei que quero viver muitos momentos ao seu lado.<br><br>
+        Quero colecionar memorias, risadas, abracos apertados e historias que um dia vamos lembrar sorrindo.
+        Quero estar aqui nos dias bons, mas tambem quando as coisas nao estiverem tao faceis.
+        Porque gostar de alguem, para mim, tambem e escolher ficar, cuidar e fazer a pessoa se sentir especial.<br><br>
+        E se essa pagina e realmente secreta, entao aqui vai o meu maior segredo: eu sou completamente apaixonado por voce. ❤️<br><br>
+        Brunna, espero que voce nunca se esqueca do quanto e especial para mim e do quanto eu sou feliz por ter voce na minha vida. Te amoooo infinitamente 💗
+        </p>
+    </div>
+
+       <!-- Elemento do Áudio oculto -->
+    <audio id="musica-romantica" loop>
+        <source src="audio/musica.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Container do Player Flutuante (Botão + Controle de Volume) -->
+    <div id="player-container" style="position: fixed; top: 15px; right: 15px; display: flex; flex-direction: row-reverse; align-items: center; gap: 8px; z-index: 9999; background-color: #ff4d6d; padding: 6px 12px; border-radius: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); width: auto !important; height: auto !important;">
+        
+        <!-- BOTÃO DA MÚSICA: Forçado a ser pequeno e redondo -->
+        <button type="button" id="btn-player" onclick="controlarMusica()" style="font-size: 16px; border: none; background: none; color: white; width: 35px !important; height: 35px !important; display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 0 !important; margin: 0 !important; min-width: 35px !important; box-shadow: none !important;">
+            🎵
+        </button>
+
+        <!-- CONTROLE DE VOLUME: Ajustado para iniciar escondido -->
+        <input type="range" id="controle-volume" min="0" max="1" step="0.05" value="0.7" oninput="ajustarVolume(this.value)" style="width: 0px; opacity: 0; visibility: hidden; transition: all 0.3s ease; accent-color: white; cursor: pointer; height: 5px; margin: 0; padding: 0;">
+    </div>
+
+    <!-- Script para controle do Áudio e do Volume -->
+    <script>
+        const audio = document.getElementById('musica-romantica');
+        const btn = document.getElementById('btn-player');
+        const volumeSlider = document.getElementById('controle-volume');
+        const container = document.getElementById('player-container');
+        let timerEsconder;
+
+        // Define o volume inicial em 70% para não começar estourado no celular
+        audio.volume = 0.7;
+
+        window.addEventListener('DOMContentLoaded', () => {
+            // Tenta tocar automático assim que abre
+            audio.play().then(() => {
+                btn.innerText = "⏸️";
+            }).catch(error => {
+                console.log("Autoplay bloqueado. Aguardando toque.");
+            });
+        });
+
+        // Função para Pausar / Dar Play e mostrar o controle de volume
+        function controlarMusica() {
+            if (audio.paused) {
+                audio.play();
+                btn.innerText = "⏸️";
+            } else {
+                audio.pause();
+                btn.innerText = "🎵";
+            }
+            
+            mostrarVolume();
+        }
+
+        // Ajusta o volume do áudio quando arrasta o dedo no slider
+        function ajustarVolume(valor) {
+            audio.volume = valor;
+            resetarTimerEsconder();
+        }
+
+        // Expande o container e mostra a barrinha de volume
+        function mostrarVolume() {
+            volumeSlider.style.width = "80px";
+            volumeSlider.style.opacity = "1";
+            volumeSlider.style.visibility = "visible";
+            resetarTimerEsconder();
+        }
+
+        // Faz a barrinha de volume encolher e sumir após 4 segundos sem mexer
+        function resetarTimerEsconder() {
+            clearTimeout(timerEsconder);
+            timerEsconder = setTimeout(() => {
+                volumeSlider.style.width = "0px";
+                volumeSlider.style.opacity = "0";
+                setTimeout(() => {
+                    volumeSlider.style.visibility = "hidden";
+                }, 300); // Aguarda a animação acabar para ocultar totalmente
+            }, 4000);
+        }
+
+        // Se ela passar o mouse ou tocar na área do player, exibe o volume também
+        container.addEventListener('mouseenter', mostrarVolume);
+        container.addEventListener('touchstart', mostrarVolume);
+    </script>
+
+</body>
+</html>
